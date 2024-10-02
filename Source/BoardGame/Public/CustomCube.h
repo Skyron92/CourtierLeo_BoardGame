@@ -7,20 +7,27 @@
 #include "CustomCube.generated.h"
 
 UCLASS(Blueprintable)
-class BOARDGAME_API ACustomCube : public AActor
-{
+class BOARDGAME_API ACustomCube : public AActor {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ACustomCube();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FLinearColor col;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UMaterialInstance* mat;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* mesh;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+	UFUNCTION(BlueprintCallable)
+	void ChangeColor(FLinearColor c) const;
+
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 };
