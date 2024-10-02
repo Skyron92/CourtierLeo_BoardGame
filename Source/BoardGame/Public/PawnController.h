@@ -14,6 +14,8 @@ class BOARDGAME_API APawnController : public APawn
 public:
 	// Sets default values for this pawn's properties
 	APawnController();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Setup)
+	int playerID;
 
 protected:
 	// Called when the game starts or when spawned

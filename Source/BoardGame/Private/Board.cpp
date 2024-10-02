@@ -11,6 +11,14 @@ ABoard::ABoard()
 
 }
 
+void ABoard::MovePawnToCell(ABoardPawn* pawn, FVector cellPos) const {
+	pawn->SetActorLocation(cellPos);
+}
+
+void ABoard::MovePawnToCellByIndex(ABoardPawn* pawn, int cellIndex) const {
+	pawn->SetActorLocation(Grid[cellIndex]->GetActorLocation());
+}
+
 // Called when the game starts or when spawned
 void ABoard::BeginPlay()
 {

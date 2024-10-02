@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "BoardPawn.h"
 #include "Cell.h"
 #include "GameFramework/Actor.h"
 #include "Board.generated.h"
@@ -16,7 +17,10 @@ public:
 	ABoard();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Board")
 	TArray<ACell*> Grid;
-
+	UFUNCTION(BlueprintCallable, Category = "Board")
+	void MovePawnToCell(ABoardPawn* pawn, FVector cellPos) const;
+	UFUNCTION(BlueprintCallable, Category = "Board")
+	void MovePawnToCellByIndex(ABoardPawn* pawn, int cellIndex) const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
