@@ -20,11 +20,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Board")
 	void MovePawnToCell(ABoardPawn* pawn, FVector cellPos) const;
 	UFUNCTION(BlueprintCallable, Category = "Board")
-	void MovePawnToCellByIndex(ABoardPawn* pawn, int cellIndex) const;
+	int MovePawnToCellByIndex(ABoardPawn* pawn, int cellIndex) const;
+	UFUNCTION(BlueprintCallable, Category = "Board")
+	bool IsLastCell(ACell* c) const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

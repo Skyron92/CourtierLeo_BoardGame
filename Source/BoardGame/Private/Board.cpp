@@ -1,6 +1,4 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Board.h"
 
 // Sets default values
@@ -15,8 +13,18 @@ void ABoard::MovePawnToCell(ABoardPawn* pawn, FVector cellPos) const {
 	pawn->SetActorLocation(cellPos);
 }
 
-void ABoard::MovePawnToCellByIndex(ABoardPawn* pawn, int cellIndex) const {
+int ABoard::MovePawnToCellByIndex(ABoardPawn* pawn, int cellIndex) const {
+	int gridSize = Grid.Num() - 1;
+	if(cellIndex > gridSize){
+		pawn->SetActorLocation(Grid[gridSize]->GetActorLocation());
+		return gridSize;
+	}
 	pawn->SetActorLocation(Grid[cellIndex]->GetActorLocation());
+	return cellIndex;
+}
+
+bool ABoard::IsLastCell(ACell* c) const{
+	return c == Grid.Last();
 }
 
 // Called when the game starts or when spawned
