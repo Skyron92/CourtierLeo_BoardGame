@@ -10,12 +10,6 @@ ACell::ACell()
 	PrimaryActorTick.bCanEverTick = true;
 
 }
-
-bool ACell::TryApplyEffect(ABoardPawn* pawn)
-{
-	return true;
-}
-
 // Called when the game starts or when spawned
 void ACell::BeginPlay()
 {

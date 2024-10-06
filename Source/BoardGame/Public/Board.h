@@ -20,8 +20,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Board")
 	TArray<ACell*> StartCells;
 	UFUNCTION(BlueprintCallable, Category = "Board")
-	void MovePawnToCell(ABoardPawn* pawn, FVector cellPos) const;
-	UFUNCTION(BlueprintCallable, Category = "Board")
 	int MovePawnToCellByIndex(ABoardPawn* pawn, int cellIndex) const;
 	UFUNCTION(BlueprintCallable, Category = "Board")
 	bool IsLastCell(ACell* c) const;
