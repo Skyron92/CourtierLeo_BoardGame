@@ -14,6 +14,12 @@ class BOARDGAME_API ABoardPawn : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABoardPawn();
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Render")
+	TArray<UStaticMeshComponent*> meshes;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Render")
+	UMaterialInstance* mat;
+	UFUNCTION(BlueprintCallable)
+	void SetColor(FLinearColor col) const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

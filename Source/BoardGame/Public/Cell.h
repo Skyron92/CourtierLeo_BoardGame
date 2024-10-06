@@ -14,6 +14,9 @@ class BOARDGAME_API ACell : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ACell();
+	// Return true if the effect is correctly applied
+	UFUNCTION(BlueprintCallable)
+	virtual bool TryApplyEffect(ABoardPawn* pawn);
 
 protected:
 	// Called when the game starts or when spawned

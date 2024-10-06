@@ -11,6 +11,14 @@ ABoardPawn::ABoardPawn()
 
 }
 
+void ABoardPawn::SetColor(FLinearColor col) const {
+	for(int i = 0; i < meshes.Num(); i++){
+		UMaterialInstanceDynamic* Mid = UMaterialInstanceDynamic::Create(mat, meshes[i]);
+		meshes[i]->SetMaterial(0, Mid);
+		Mid->SetVectorParameterValue("Color", col);
+	}
+}
+
 // Called when the game starts or when spawned
 void ABoardPawn::BeginPlay()
 {

@@ -17,6 +17,8 @@ public:
 	ABoard();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Board")
 	TArray<ACell*> Grid;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Board")
+	TArray<ACell*> StartCells;
 	UFUNCTION(BlueprintCallable, Category = "Board")
 	void MovePawnToCell(ABoardPawn* pawn, FVector cellPos) const;
 	UFUNCTION(BlueprintCallable, Category = "Board")
