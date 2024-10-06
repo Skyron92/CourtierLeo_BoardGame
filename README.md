@@ -15,4 +15,3 @@ Dans cette itération du projet :
 Ce que j'aurais souhaité améliorer au sein même de cette itération si j'avais eu plus de temps :
   - Actuellement les joueurs contrôlent tous des pingouins de couleurs différentes. Les couleurs sont prédéfinies et ont un rôle purement fonctionnel. J'aimerais donc que le joueur choisisse sa couleur lui-même, et dans une prochaine itération, qu'il puisse choisir    d'autres animaux.
   - Lorsqu'on lance le dé, le résultat s'affiche sur une image. J'aimerais créer un peu de suspense en lançant une animation de défilement aléatoire à la manière d'une machine à sou avant de dévoiler le résultat du dé.
-  - Rien n'indique qu'un joueur ai gagné. De plus, les joueurs peuvent continuer à jouer après ça, y compris celui qui a déjà gagné.
