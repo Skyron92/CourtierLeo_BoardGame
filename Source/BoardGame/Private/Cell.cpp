@@ -17,6 +17,12 @@ void ACell::BeginPlay()
 	
 }
 
+void ACell::ChangeColor(FLinearColor c) const{
+	UMaterialInstanceDynamic* Mid = UMaterialInstanceDynamic::Create(mat, mesh);
+	mesh->SetMaterial(0, Mid);
+	Mid->SetVectorParameterValue("Color", c);
+}
+
 // Called every frame
 void ACell::Tick(float DeltaTime)
 {
