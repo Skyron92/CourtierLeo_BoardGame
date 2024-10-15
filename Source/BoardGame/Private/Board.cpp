@@ -14,10 +14,14 @@ ABoard::ABoard()
 int ABoard::MovePawnToCellByIndex(ABoardPawn* pawn, int cellIndex) const {
 	int gridSize = Grid.Num() - 1;
 	if(cellIndex > gridSize){
-		pawn->SetActorLocation(Grid[gridSize]->GetActorLocation());
+		FVector pos = Grid[gridSize]->GetActorLocation();
+		pos.Z += pawn->ZOffset;
+		pawn->SetActorLocation(pos);
 		return gridSize;
 	}
-	pawn->SetActorLocation(Grid[cellIndex]->GetActorLocation());
+	FVector pos = Grid[cellIndex]->GetActorLocation();
+	pos.Z += pawn->ZOffset;
+	pawn->SetActorLocation(pos);
 	return cellIndex;
 }
 

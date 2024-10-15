@@ -20,6 +20,8 @@ public:
 	UMaterialInstance* mat;
 	UFUNCTION(BlueprintCallable)
 	void SetColor(FLinearColor col) const;
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category="Position")
+	float ZOffset = 50;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
