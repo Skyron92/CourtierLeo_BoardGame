@@ -2,19 +2,21 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "UObject/NoExportTypes.h"
+#include "CoreMinimal.h" 
 #include "State.generated.h"
 
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable)
 class BOARDGAME_API UState : public UObject
 {
 	GENERATED_BODY()
 public:
-	virtual void Enter() const;
-	virtual void Do() const;
-	virtual void Exit() const;
+	virtual void Enter(class APlayerFSM fsm) const;
+	virtual void Do(class APlayerFSM fsm) const;
+	virtual void Exit(class APlayerFSM fsm) const;
+
+	UFUNCTION(BlueprintCallable)
+	void Print(FString content) const;
 };
