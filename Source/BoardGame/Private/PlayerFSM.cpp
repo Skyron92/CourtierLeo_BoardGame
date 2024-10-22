@@ -22,7 +22,6 @@ void APlayerFSM::BeginPlay()
 void APlayerFSM::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void APlayerFSM::ChangeState(UState* state)

@@ -3,15 +3,15 @@
 
 #include "State.h"
 
-void UState::Enter(APlayerFSM fsm) const
+void UState::Enter(APlayerFSM* fsm) const
 {
 }
 
-void UState::Do(APlayerFSM fsm) const
+void UState::Do(APlayerFSM* fsm) const
 {
 }
 
-void UState::Exit(APlayerFSM fsm) const
+void UState::Exit(APlayerFSM* fsm) const
 {
 }
 
