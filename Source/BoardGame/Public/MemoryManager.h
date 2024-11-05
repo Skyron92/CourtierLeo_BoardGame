@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
 #include "MemoryCard.h"
+#include "GameFramework/Actor.h"
 #include "MemoryManager.generated.h"
 
 UCLASS()
@@ -19,22 +19,27 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Grid")
 	int XSize = 4;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Grid")
 	int YSize = 4;
 
-	UMemoryCard* Grid[4][4] = {
-		{NewObject<UMemoryCard>(), NewObject<UMemoryCard>(), NewObject<UMemoryCard>(), NewObject<UMemoryCard>()},
-		{NewObject<UMemoryCard>(), NewObject<UMemoryCard>(), NewObject<UMemoryCard>(), NewObject<UMemoryCard>()},
-		{NewObject<UMemoryCard>(), NewObject<UMemoryCard>(), NewObject<UMemoryCard>(), NewObject<UMemoryCard>()},
-		{NewObject<UMemoryCard>(), NewObject<UMemoryCard>(), NewObject<UMemoryCard>(), NewObject<UMemoryCard>()},
+	AMemoryCard* Grid[4][4] = {
+		{nullptr,nullptr,nullptr,nullptr},
+		{nullptr,nullptr,nullptr,nullptr},
+		{nullptr,nullptr,nullptr,nullptr},
+		{nullptr,nullptr,nullptr,nullptr},
 	};
 	TArray<FIntVector2> path;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Grid")
 	int pos = 0;
 	int pathLenght = 0;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Grid")
+	TSubclassOf<AMemoryCard> cardClass;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Grid")
+	float cardOffset = 100;
 
 public:
 	// Called every frame
@@ -45,12 +50,17 @@ public:
 
 	TArray<FIntVector2> GeneratePath();
 
-	bool MoveIsTowardEnd(int increment, FIntVector2 currentPos, int end) const;
+	void DisplayGrid() const;
+
+	static bool MoveIsTowardEnd(int increment, FIntVector2 currentPos, int end);
 
 	bool CurrentPosIsInRange(int increment, FIntVector2 currentPos) const;
 
 	UFUNCTION(BlueprintCallable)
-	bool PickTileByCoord(int x, int y);
+	bool IsValidTileByCoord(int x, int y);
 
-	bool PickTile(FIntVector2 coord);
+	// Return true if the tile is a good one.
+	bool IsValidTile(FIntVector2 coord);
+
+	void PickTile(FIntVector2 coord);
 };

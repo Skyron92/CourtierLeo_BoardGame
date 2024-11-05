@@ -9,6 +9,16 @@
  * 
  */
 UCLASS()
-class BOARDGAME_API UMemoryCard : public UObject {
+class BOARDGAME_API AMemoryCard : public AActor {
 	GENERATED_BODY()
+public:
+
+	AMemoryCard();
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UMaterialInstance* mat;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UStaticMeshComponent* mesh;
+
+	void Reveal(FColor col) const;
 };

@@ -12,7 +12,7 @@ AMemoryManager::AMemoryManager() {
 // Called when the game starts or when spawned
 void AMemoryManager::BeginPlay() {
 	Super::BeginPlay();
-	GeneratePath();
+	Initialize();
 }
 
 // Called every frame
@@ -20,7 +20,10 @@ void AMemoryManager::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 }
 
-void AMemoryManager::Initialize() {}
+void AMemoryManager::Initialize(){
+	GeneratePath();
+	DisplayGrid();
+}
 
 TArray<FIntVector2> AMemoryManager::GeneratePath() {
 	int start = 0;
@@ -92,7 +95,21 @@ TArray<FIntVector2> AMemoryManager::GeneratePath() {
 	return result;
 }
 
-bool AMemoryManager::MoveIsTowardEnd(int increment, FIntVector2 currentPos, int end) const {
+void AMemoryManager::DisplayGrid() const
+{
+	if(cardClass == nullptr) return;
+	GEngine->AddOnScreenDebugMessage(-100, 5000000, FColor::Yellow, TEXT("Display Cards !"));
+	for (int x = 0; x < XSize; x++){
+		for (int y = 0; y < YSize; y++){
+			auto a = GetWorld()->SpawnActor(cardClass);
+			a->SetActorLocation(FVector(x * cardOffset,y * cardOffset, 0));
+			GEngine->AddOnScreenDebugMessage(x - y -500, 5000000, FColor::Yellow, TEXT("Spawn an actor !"));
+		}
+	}
+}
+
+bool AMemoryManager::MoveIsTowardEnd(int increment, FIntVector2 currentPos, int end)
+{
 	bool result = (end > currentPos.Y && currentPos.Y + increment <= end) ||
 		(end < currentPos.Y && currentPos.Y + increment >= end);
 	return result;
@@ -102,10 +119,15 @@ bool AMemoryManager::CurrentPosIsInRange(int increment, FIntVector2 currentPos) 
 	return currentPos.Y + increment < YSize && currentPos.Y + increment >= 0;
 }
 
-bool AMemoryManager::PickTileByCoord(int x, int y) {
-	return PickTile(FIntVector2(x, y));
+bool AMemoryManager::IsValidTileByCoord(int x, int y) {
+	return IsValidTile(FIntVector2(x, y));
 }
 
-bool AMemoryManager::PickTile(FIntVector2 coord) {
+bool AMemoryManager::IsValidTile(FIntVector2 coord) {
 	return path[pos].X == coord.X && path[pos].Y == coord.Y;
+}
+
+void AMemoryManager::PickTile(FIntVector2 coord){
+	bool isValid = IsValidTile(coord);
+	Grid[coord.X][coord.Y]->Reveal(isValid ? FColor::Green : FColor::Red);
 }
