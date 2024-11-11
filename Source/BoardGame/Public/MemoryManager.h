@@ -30,8 +30,10 @@ protected:
 		{nullptr,nullptr,nullptr,nullptr},
 		{nullptr,nullptr,nullptr,nullptr},
 	};
+	// The correct sequence
 	TArray<FIntVector2> path;
 
+	// The number of tiles picked by the player in once session.
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Grid")
 	int pos = 0;
 	int pathLenght = 0;
@@ -50,17 +52,25 @@ public:
 
 	TArray<FIntVector2> GeneratePath();
 
-	void DisplayGrid() const;
+	void DisplayGrid();
 
+	// Unused
 	static bool MoveIsTowardEnd(int increment, FIntVector2 currentPos, int end);
 
 	bool CurrentPosIsInRange(int increment, FIntVector2 currentPos) const;
 
+	// Allows to call IsValidTile from blueprint
+	// (because FIntVector2 doesn't exist in bp)
 	UFUNCTION(BlueprintCallable)
 	bool IsValidTileByCoord(int x, int y);
 
-	// Return true if the tile is a good one.
+	// Return true if the tile is in the sequence in the same order as picked by player.
 	bool IsValidTile(FIntVector2 coord);
 
+	// Allows to call PickTile from blueprint
+	// (because FIntVector2 doesn't exist in bp)
+	UFUNCTION(BlueprintCallable)
+	void PickTileByCoord(int x, int y);
+	
 	void PickTile(FIntVector2 coord);
 };

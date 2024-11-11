@@ -21,7 +21,7 @@ void AMemoryManager::Tick(float DeltaTime) {
 }
 
 void AMemoryManager::Initialize(){
-	GeneratePath();
+	path = GeneratePath();
 	DisplayGrid();
 }
 
@@ -95,7 +95,7 @@ TArray<FIntVector2> AMemoryManager::GeneratePath() {
 	return result;
 }
 
-void AMemoryManager::DisplayGrid() const
+void AMemoryManager::DisplayGrid()
 {
 	if(cardClass == nullptr) return;
 	GEngine->AddOnScreenDebugMessage(-100, 5000000, FColor::Yellow, TEXT("Display Cards !"));
@@ -103,6 +103,10 @@ void AMemoryManager::DisplayGrid() const
 		for (int y = 0; y < YSize; y++){
 			auto a = GetWorld()->SpawnActor(cardClass);
 			a->SetActorLocation(FVector(x * cardOffset,y * cardOffset, 0));
+			auto c = Cast<AMemoryCard>(a);
+			c->SetCoord(FIntVector2(x,y));
+			c->SetManager(this);
+			Grid[x][y] = c;
 			GEngine->AddOnScreenDebugMessage(x - y -500, 5000000, FColor::Yellow, TEXT("Spawn an actor !"));
 		}
 	}
@@ -124,7 +128,11 @@ bool AMemoryManager::IsValidTileByCoord(int x, int y) {
 }
 
 bool AMemoryManager::IsValidTile(FIntVector2 coord) {
-	return path[pos].X == coord.X && path[pos].Y == coord.Y;
+	return path[pos] == coord;
+}
+
+void AMemoryManager::PickTileByCoord(int x, int y){
+	PickTile(FIntVector2(x,y));
 }
 
 void AMemoryManager::PickTile(FIntVector2 coord){
