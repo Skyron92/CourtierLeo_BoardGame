@@ -51,6 +51,7 @@ public:
 	void Initialize();
 
 	TArray<FIntVector2> GeneratePath();
+	void InitializeLimitTile(int pathIndex, float offset, FIntVector2 coord);
 
 	void DisplayGrid();
 
@@ -66,6 +67,8 @@ public:
 
 	// Return true if the tile is in the sequence in the same order as picked by player.
 	bool IsValidTile(FIntVector2 coord);
+	
+	
 
 	// Allows to call PickTile from blueprint
 	// (because FIntVector2 doesn't exist in bp)
@@ -73,4 +76,6 @@ public:
 	void PickTileByCoord(int x, int y);
 	
 	void PickTile(FIntVector2 coord);
+
+	void ReverseAllTiles();
 };

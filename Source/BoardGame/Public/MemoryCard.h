@@ -21,6 +21,7 @@ public:
 	UMaterialInstance* mat;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* mesh;
+	UMaterialInstanceDynamic* Mid;
 
 	// Show the card
 	void Reveal(FColor col) const;
@@ -39,5 +40,19 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	void GetCoord(int &x, int &y);
 
+	virtual void BeginPlay() override;
+
 	bool pickable;
+
+	FTimerHandle cardTimer;
+	float animationStartTime;
+	float timeDelay = 0.01f;
+	float ZOffset = 100.0f;
+	float degreeOffset = 45;
+	float speed = 3;
+
+	void Reverse(float targetPitch);
+	
+	UFUNCTION()
+	void ReverseAnimation(AActor* tile, float startPoint, float targetPitch);
 };
