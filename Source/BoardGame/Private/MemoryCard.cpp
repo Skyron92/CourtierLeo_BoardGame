@@ -3,6 +3,8 @@
 
 #include "MemoryCard.h"
 
+#include "MemoryManager.h"
+
 AMemoryCard::AMemoryCard() {
 
 }
@@ -27,7 +29,7 @@ void AMemoryCard::BeginPlay() {
 	mesh->SetMaterial(0, Mid);
 }
 
-void AMemoryCard::SetManager(const AMemoryManager* manager){
+void AMemoryCard::SetManager(AMemoryManager* manager){
 	MemoryManager = manager;
 }
 
@@ -37,6 +39,7 @@ void AMemoryCard::Reverse(float targetPitch) {
 	float pos = GetActorLocation().Z;
 	delegate.BindUFunction(this, "ReverseAnimation", this, pos, targetPitch);
 	GetWorld()->GetTimerManager().SetTimer(cardTimer, delegate, timeDelay, true);
+	isRevealed = targetPitch == 180;
 }
 
 void AMemoryCard::ReverseAnimation(AActor* tile, float startPoint, float targetPitch){
@@ -47,14 +50,16 @@ void AMemoryCard::ReverseAnimation(AActor* tile, float startPoint, float targetP
 	tile->SetActorLocation(newPos);
 	if(GetActorRotation().Euler().X -180 <= .1f){
 		FRotator newRot = FRotator(degreeOffset,0,0);
-		GEngine->AddOnScreenDebugMessage(8, 5000000, FColor::Green,
-										 FString::Printf(TEXT("Angle : %f"), GetActorRotation().Euler().X));
 		tile->AddActorLocalRotation(newRot);
 	}
-	if(tile->GetActorLocation().Z - startPoint <= .1f){
+	if(tile->GetActorLocation().Z - startPoint <= 1.0f)
+	{
 		tile->SetActorRotation(FRotator(targetPitch,0,0));
-		GEngine->AddOnScreenDebugMessage(7, 5000000, FColor::Blue,
-									 FString::Printf(TEXT("End !")));
 		GetWorld()->GetTimerManager().ClearTimer(cardTimer);
+		if(!MemoryManager->IsValidTile(coord)) {
+			FTimerHandle tempHandle;
+			MemoryManager->BindReverse();
+			GetWorld()->GetTimerManager().SetTimer(tempHandle, MemoryManager->TimerDelegate, 1.0f, false);
+		}
 	}
 }

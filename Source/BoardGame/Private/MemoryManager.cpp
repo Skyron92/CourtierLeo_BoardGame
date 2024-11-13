@@ -142,12 +142,20 @@ void AMemoryManager::PickTile(FIntVector2 coord){
 	tile->Reverse(180);
 }
 
-
+void AMemoryManager::BindReverse()
+{
+	TimerDelegate.BindUFunction(this, "ReverseAllTiles");
+}
 
 void AMemoryManager::ReverseAllTiles() {
 	for (int x = 0; x < XSize; x++){
 		for (int y = 0; y < YSize; y++){
-			Grid[x][y]->Reveal(FColor::White);
+			auto tile = Grid[x][y];
+			if(tile->isRevealed){
+				tile->Reverse(0);
+				tile->Reveal(FColor::White);
+				tile->isRevealed = false;
+			}
 		}
 	}
 }

@@ -28,12 +28,14 @@ public:
 
 	FIntVector2 coord;
 
-	void SetManager(const class AMemoryManager* manager);
+	void SetManager(class AMemoryManager* manager);
 
 	UPROPERTY(BlueprintReadOnly)
-	const AMemoryManager* MemoryManager = nullptr;
+	AMemoryManager* MemoryManager = nullptr;
 
 	void SetCoord(FIntVector2 Coord);
+
+	bool isRevealed;
 
 	// Allows to see coord in BP
 	// because FIntVector2 doesn't exist in BP

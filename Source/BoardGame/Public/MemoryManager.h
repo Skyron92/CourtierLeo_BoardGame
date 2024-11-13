@@ -68,7 +68,8 @@ public:
 	// Return true if the tile is in the sequence in the same order as picked by player.
 	bool IsValidTile(FIntVector2 coord);
 	
-	
+	FTimerHandle TimerHandle;
+	FTimerDelegate TimerDelegate;
 
 	// Allows to call PickTile from blueprint
 	// (because FIntVector2 doesn't exist in bp)
@@ -77,5 +78,8 @@ public:
 	
 	void PickTile(FIntVector2 coord);
 
+	void BindReverse();
+
+	UFUNCTION()
 	void ReverseAllTiles();
 };
