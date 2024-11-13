@@ -10,7 +10,6 @@ AMemoryCard::AMemoryCard() {
 }
 
 void AMemoryCard::Reveal(FColor col) const {
-	
 	Mid->SetVectorParameterValue("Color", col);
 }
 
@@ -34,6 +33,8 @@ void AMemoryCard::SetManager(AMemoryManager* manager){
 }
 
 void AMemoryCard::Reverse(float targetPitch) {
+	GetWorld()->GetFirstPlayerController()->bEnableClickEvents = false;
+	GetWorld()->GetFirstPlayerController()->bEnableMouseOverEvents = false;
 	animationStartTime = GetWorld()->GetTimeSeconds();
 	FTimerDelegate delegate;
 	float pos = GetActorLocation().Z;
@@ -52,14 +53,18 @@ void AMemoryCard::ReverseAnimation(AActor* tile, float startPoint, float targetP
 		FRotator newRot = FRotator(degreeOffset,0,0);
 		tile->AddActorLocalRotation(newRot);
 	}
-	if(tile->GetActorLocation().Z - startPoint <= 1.0f)
-	{
+	if(tile->GetActorLocation().Z - startPoint <= 3.0f) {
+		key++;
 		tile->SetActorRotation(FRotator(targetPitch,0,0));
 		GetWorld()->GetTimerManager().ClearTimer(cardTimer);
 		if(!MemoryManager->IsValidTile(coord)) {
 			FTimerHandle tempHandle;
 			MemoryManager->BindReverse();
 			GetWorld()->GetTimerManager().SetTimer(tempHandle, MemoryManager->TimerDelegate, 1.0f, false);
+		}
+		else {
+			GetWorld()->GetFirstPlayerController()->bEnableClickEvents = true;
+			GetWorld()->GetFirstPlayerController()->bEnableMouseOverEvents = true;
 		}
 	}
 }

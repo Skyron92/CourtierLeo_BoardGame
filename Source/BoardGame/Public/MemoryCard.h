@@ -24,9 +24,12 @@ public:
 	UMaterialInstanceDynamic* Mid;
 
 	// Show the card
+	UFUNCTION(BlueprintCallable)
 	void Reveal(FColor col) const;
 
 	FIntVector2 coord;
+
+	int key = 200;
 
 	void SetManager(class AMemoryManager* manager);
 
@@ -35,6 +38,7 @@ public:
 
 	void SetCoord(FIntVector2 Coord);
 
+	UPROPERTY(BlueprintReadOnly)
 	bool isRevealed;
 
 	// Allows to see coord in BP
@@ -44,13 +48,15 @@ public:
 
 	virtual void BeginPlay() override;
 
-	bool pickable;
-
 	FTimerHandle cardTimer;
 	float animationStartTime;
-	float timeDelay = 0.01f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Reverse Animation")
+	float timeDelay = 0.1f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Reverse Animation")
 	float ZOffset = 100.0f;
-	float degreeOffset = 45;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Reverse Animation")
+	float degreeOffset = 90;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Reverse Animation")
 	float speed = 3;
 
 	void Reverse(float targetPitch);

@@ -93,6 +93,7 @@ void AMemoryManager::InitializeLimitTile(int pathIndex, float offset, FIntVector
 	auto tileAsCard = Cast<AMemoryCard>(tile);
 	tileAsCard->Reveal(FColor::Green);
 	tileAsCard->SetCoord(coord);
+	tileAsCard->isRevealed = true;
 }
 
 void AMemoryManager::DisplayGrid() {
@@ -158,4 +159,6 @@ void AMemoryManager::ReverseAllTiles() {
 			}
 		}
 	}
+	GetWorld()->GetFirstPlayerController()->bEnableClickEvents = true;
+	GetWorld()->GetFirstPlayerController()->bEnableMouseOverEvents = true;
 }
