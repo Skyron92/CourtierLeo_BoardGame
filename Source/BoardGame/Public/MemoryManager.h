@@ -82,4 +82,7 @@ public:
 
 	UFUNCTION()
 	void ReverseAllTiles();
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void DisplayVictory();
 };

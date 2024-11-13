@@ -138,9 +138,11 @@ void AMemoryManager::PickTileByCoord(int x, int y){
 
 void AMemoryManager::PickTile(FIntVector2 coord){
 	bool isValid = IsValidTile(coord);
+	if(isValid) pos++;
 	auto tile = Grid[coord.X][coord.Y]; 
 	tile->Reveal(isValid ? FColor::Green : FColor::Red);
 	tile->Reverse(180);
+	if(pos == path.Num()) DisplayVictory();
 }
 
 void AMemoryManager::BindReverse()
@@ -149,6 +151,7 @@ void AMemoryManager::BindReverse()
 }
 
 void AMemoryManager::ReverseAllTiles() {
+	pos = 0;
 	for (int x = 0; x < XSize; x++){
 		for (int y = 0; y < YSize; y++){
 			auto tile = Grid[x][y];
