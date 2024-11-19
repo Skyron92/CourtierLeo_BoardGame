@@ -4,8 +4,7 @@
 #include "CollectMinigame/CollectableItem.h"
 
 // Sets default values
-ACollectableItem::ACollectableItem()
-{
+ACollectableItem::ACollectableItem() {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -17,16 +16,12 @@ ACollectableItem::ACollectableItem()
 }
 
 // Called when the game starts or when spawned
-void ACollectableItem::BeginPlay()
-{
+void ACollectableItem::BeginPlay() {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
-void ACollectableItem::Tick(float DeltaTime)
-{
+void ACollectableItem::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
-
 }
 

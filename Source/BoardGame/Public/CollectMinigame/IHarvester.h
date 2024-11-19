@@ -7,6 +7,7 @@
 #include "UObject/Interface.h"
 #include "IHarvester.generated.h"
 
+// Interface que doit implémenter celui qui collecte (joueur comme IA)
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UIHarvester : public UInterface
@@ -23,11 +24,12 @@ class BOARDGAME_API IIHarvester
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	
+	// Collectibles actuellement en poche
 	TArray<UCollectableComponent*> Collectables;
 	
 	int score = 0;
 
+	// Écart visuel entre chaque collectible
 	float collectiblesStep = 50;
 	
 	virtual void Harvest(UCollectableComponent* collectable);
@@ -37,6 +39,4 @@ public:
 	virtual void ClaimAll();
 
 	virtual void OnHit();
-	
-	virtual void OnReserveOverlap(UPrimitiveComponent* component, AActor* other, UPrimitiveComponent* otherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

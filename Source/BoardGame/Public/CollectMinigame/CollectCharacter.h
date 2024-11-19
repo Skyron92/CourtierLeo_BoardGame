@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "CollectCharacter.generated.h"
 
+// Character qui implémente l'interface IHarvester.
 UCLASS(Blueprintable)
 class BOARDGAME_API ACollectCharacter : public ACharacter, public IIHarvester
 {

@@ -18,24 +18,18 @@ AReserve::AReserve()
 }
 
 // Called when the game starts or when spawned
-void AReserve::BeginPlay()
-{
+void AReserve::BeginPlay(){
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
-void AReserve::Tick(float DeltaTime)
-{
+void AReserve::Tick(float DeltaTime){
 	Super::Tick(DeltaTime);
-
 }
 
 void AReserve::OnActorOverlap(UPrimitiveComponent* component, AActor* other, UPrimitiveComponent* otherComponent,
                               int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	GEngine->AddOnScreenDebugMessage(50, 5, FColor::Red, "Reserve");
 	if (other->Implements<UIHarvester>()){
-		
 		auto harvester = Cast<IIHarvester>(other);
 		harvester->ClaimAll();
 	}

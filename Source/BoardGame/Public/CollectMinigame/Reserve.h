@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "IHarvester.h"
 #include "Components/SphereComponent.h"
+#include "CollectMinigame/IHarvester.h"
 #include "GameFramework/Actor.h"
 #include "Reserve.generated.h"
 
+// Le joueur doit ramener les collectibles à cet item pour gagner des points
 UCLASS()
 class BOARDGAME_API AReserve : public AActor
 {

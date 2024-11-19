@@ -7,6 +7,9 @@
 #include "GameFramework/Actor.h"
 #include "CollectableItem.generated.h"
 
+// Item ramassable.
+// Un item n'a pas besoin d'hériter de cette classe pour être ramassé,
+// mais uniquement d'avoir le component UCollectableComponent.
 UCLASS()
 class ACollectableItem : public AActor
 {
@@ -22,7 +25,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* StaticMeshComponent;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UCollectableComponent* Collectable;
 

@@ -6,7 +6,7 @@
 #include "Components/SphereComponent.h"
 #include "CollectableComponent.generated.h"
 
-
+// Component qui permet à un objet d'être collecté
 UCLASS()
 class BOARDGAME_API UCollectableComponent : public USphereComponent
 {

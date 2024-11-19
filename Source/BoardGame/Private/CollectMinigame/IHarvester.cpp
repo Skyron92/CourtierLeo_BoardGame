@@ -23,8 +23,3 @@ void IIHarvester::ClaimAll() {
 void IIHarvester::OnHit() {
 	LeaveAll();
 }
-
-void IIHarvester::OnReserveOverlap(UPrimitiveComponent* component, AActor* other, UPrimitiveComponent* otherComponent,
-                                   int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	ClaimAll();
-}
