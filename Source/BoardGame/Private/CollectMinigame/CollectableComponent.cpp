@@ -24,6 +24,16 @@ void UCollectableComponent::BeginPlay()
 }
 
 
+int UCollectableComponent::GetScore() const
+{
+	return Score;
+}
+
+void UCollectableComponent::SetScore(int score)
+{
+	Score = score;
+}
+
 // Called every frame
 void UCollectableComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {

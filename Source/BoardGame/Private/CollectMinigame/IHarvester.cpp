@@ -14,7 +14,7 @@ void IIHarvester::LeaveAll() {
 
 void IIHarvester::ClaimAll() {
 	for (auto item : Collectables){
-		score += item->Score;
+		score += item->GetScore();
 		Collectables.Remove(item);
 	}
 	GEngine->AddOnScreenDebugMessage(5,10, FColor::Green, FString::Printf(TEXT("Score: %d"), score));

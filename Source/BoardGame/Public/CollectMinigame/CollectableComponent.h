@@ -20,9 +20,12 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int Score = 10;
+
+public:
+	
+	int GetScore() const;
+	void SetScore(int score);
 	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
