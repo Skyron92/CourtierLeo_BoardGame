@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Hitable.h"
 #include "IHarvester.h"
 #include "GameFramework/Character.h"
 #include "CollectCharacter.generated.h"
 
 // Character qui implémente l'interface IHarvester.
 UCLASS(Blueprintable)
-class BOARDGAME_API ACollectCharacter : public ACharacter, public IIHarvester
+class BOARDGAME_API ACollectCharacter : public ACharacter, public IIHarvester, public IHitable
 {
 	GENERATED_BODY()
 
@@ -46,8 +47,12 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
+	virtual void Push() override;
+
 	UFUNCTION()
 	void MoveForward(float value);
 	UFUNCTION()
 	void MoveRight(float value);
+
+	virtual void OnHit() override;
 };

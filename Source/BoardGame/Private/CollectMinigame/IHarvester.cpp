@@ -22,6 +22,5 @@ void IIHarvester::ClaimAll() {
 	}
 }
 
-void IIHarvester::OnHit() {
-	LeaveAll();
+void IIHarvester::Push() {
 }

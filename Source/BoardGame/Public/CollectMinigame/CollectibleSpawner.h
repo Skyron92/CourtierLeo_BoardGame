@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Hitable.h"
 #include "GameFramework/Actor.h"
 #include "CollectMinigame/Slot.h"
 #include "CollectibleSpawner.generated.h"
 
 UCLASS()
-class BOARDGAME_API ACollectibleSpawner : public AActor
+class BOARDGAME_API ACollectibleSpawner : public AActor, public IHitable
 {
 	GENERATED_BODY()
 	
@@ -37,5 +38,8 @@ public:
 
 	TArray<AActor*> SpawnedItem;
 
+	UFUNCTION()
 	void SpawnCollectible();
+
+	virtual void OnHit() override;
 };

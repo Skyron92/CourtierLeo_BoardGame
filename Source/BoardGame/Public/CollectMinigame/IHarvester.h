@@ -35,5 +35,5 @@ public:
 
 	virtual void ClaimAll();
 
-	virtual void OnHit();
+	virtual void Push();
 };
