@@ -28,9 +28,6 @@ public:
 	TArray<UCollectableComponent*> Collectables;
 	
 	int score = 0;
-
-	// Écart visuel entre chaque collectible
-	float collectiblesStep = 50;
 	
 	virtual void Harvest(UCollectableComponent* collectable);
 	

@@ -32,5 +32,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FSlot> slots;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float StartSpawnProbability = 10;
+
+	TArray<AActor*> SpawnedItem;
+
 	void SpawnCollectible();
 };

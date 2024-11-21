@@ -10,7 +10,6 @@ ACollectCharacter::ACollectCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	collectiblesStep = ItemStep;
 }
 
 // Called when the game starts or when spawned
@@ -26,7 +25,7 @@ void ACollectCharacter::Harvest(UCollectableComponent* collectable)
 	auto item = GetWorld()->SpawnActor(ItemVisualizer);
 	item->AttachToActor(this,  FAttachmentTransformRules::KeepWorldTransform);
 	FVector location = GetActorLocation();
-	location.Z += collectiblesStep * Collectables.Num();
+	location.Z += ItemStep * Collectables.Num();
 	item->SetActorLocation(location);
 	CollectedItems.AddUnique(item);
 }

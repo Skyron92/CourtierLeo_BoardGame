@@ -13,11 +13,13 @@ void IIHarvester::LeaveAll() {
 }
 
 void IIHarvester::ClaimAll() {
+	int key = 0;
 	for (auto item : Collectables){
 		score += item->GetScore();
+		GEngine->AddOnScreenDebugMessage(key,10, FColor::Green, FString::Printf(TEXT("Score: %d"), score));
 		Collectables.Remove(item);
+		key++;
 	}
-	GEngine->AddOnScreenDebugMessage(5,10, FColor::Green, FString::Printf(TEXT("Score: %d"), score));
 }
 
 void IIHarvester::OnHit() {
