@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Hitable.h"
 #include "IHarvester.h"
+#include "EnhancedInputComponent.h"
 #include "GameFramework/Character.h"
 #include "CollectCharacter.generated.h"
 
@@ -46,7 +47,16 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	UPROPERTY(EditAnywhere, Category="Input")
+	UEnhancedInputComponent* EnhancedInputComponent;
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* MoveAction;
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* PushAction;
 
+	UFUNCTION()
+	void StartPush(const FInputActionValue& value);
+	
 	virtual void Push() override;
 
 	UFUNCTION()

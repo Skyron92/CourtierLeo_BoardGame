@@ -12,19 +12,15 @@ ACollectibleSpawner::ACollectibleSpawner() {
 // Called when the game starts or when spawned
 void ACollectibleSpawner::BeginPlay() {
 	Super::BeginPlay();
-	int key = -10;
-	for (auto slot : slots) {
+	for (auto& slot : slots) {
 		slot.Taken = FMath::RandRange(0,100) < StartSpawnProbability;
 		if (slot.Taken) {
 			auto item = GetWorld()->SpawnActor(ItemClass);
 			item->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 			item->SetActorRelativeLocation(slot.Location);
 			SpawnedItem.AddUnique(item);
-			// Problème ici !!
-			GEngine->AddOnScreenDebugMessage(key, 50, FColor::Orange, FString::Printf(TEXT("Slot loc : %s, item loc : %s"),
-												 *slot.Location.ToString(), *item->GetActorLocation().ToString()));
+			break;
 		}
-		key++;
 	}
 	TimerDelegate.BindUFunction(this, "SpawnCollectible");
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, FMath::RandRange(0,3), false);
@@ -36,20 +32,19 @@ void ACollectibleSpawner::Tick(float DeltaTime) {
 }
 
 void ACollectibleSpawner::SpawnCollectible() {
-	GEngine->AddOnScreenDebugMessage(-500, 5, FColor::Yellow, "Spawned");
-	for (auto slot : slots) {
-		//slot.Taken = FMath::RandRange(0,100) < 50;
+	for (auto& slot : slots) {
 		if (slot.Taken) {
+			continue;
+		}
+		if (!slot.Taken) {
+			slot.Taken = true;
 			auto item = GetWorld()->SpawnActor(ItemClass);
 			item->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 			item->SetActorRelativeLocation(slot.Location);
-			GEngine->AddOnScreenDebugMessage(-500, 5, FColor::White,
-			                                 FString::Printf(TEXT("Slot loc : %s, item loc : %s"),
-			                                 	*slot.Location.ToString(), *item->GetActorLocation().ToString()));
 			SpawnedItem.AddUnique(item);
 			GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
 			GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, FMath::RandRange(2,5), false);
-			return;
+			break;
 		}
 	}
 	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);

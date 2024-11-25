@@ -42,4 +42,6 @@ public:
 	void SpawnCollectible();
 
 	virtual void OnHit() override;
+
+	int key = 500;
 };

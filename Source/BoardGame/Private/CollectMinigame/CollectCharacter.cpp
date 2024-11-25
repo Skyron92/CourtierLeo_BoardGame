@@ -2,8 +2,6 @@
 
 
 #include "CollectMinigame/CollectCharacter.h"
-
-#include "MovieSceneTracksComponentTypes.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
@@ -47,35 +45,47 @@ void ACollectCharacter::Tick(float DeltaTime)
 }
 
 // Called to bind functionality to input
-void ACollectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
+void ACollectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &ACollectCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("Move Right / Left", this, &ACollectCharacter::MoveRight);
+	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+	if (Input) {
+		/*if (MoveAction) {
+			Input->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACollectCharacter::InputMove);
+		}*/
+		if (PushAction) {
+			Input->BindAction(PushAction, ETriggerEvent::Started, this, &ACollectCharacter::StartPush);
+		}
+	}
 }
 
-void ACollectCharacter::Push()
-{
+void ACollectCharacter::StartPush(const FInputActionValue& value) {
+	GEngine->AddOnScreenDebugMessage(8000, 10, FColor::Magenta, "StartPush");
+	Push();
+}
+
+void ACollectCharacter::Push() {
 	IIHarvester::Push();
-	FVector Start = GetActorLocation();                       // Point de départ
-	FVector End = Start + FVector(0.f, 0.f, -500.f);          // Direction et distance du traçage
-	float Radius = 100.f;                                     // Rayon de la sphère
-	TArray<AActor*> ActorsToIgnore;                          // Acteurs à ignorer (optionnel)
-	ActorsToIgnore.Add(this);                                 // Ignorer cet acteur
+	FVector Start = GetActorLocation();
+	FVector End = Start + FVector(0.f, 0.f, -500.f);
+	float Radius = 100.f;
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Add(this);
 	FHitResult OutHit;
 
-	// Effectuer le traçage
+	// Traçage
 	bool bHit = UKismetSystemLibrary::SphereTraceSingle(
 		GetWorld(),
-		Start,                      // Point de départ
-		End,                        // Point final
-		Radius,                     // Rayon
-		TraceTypeQuery1,             // Channel de collision
-		false,                      // Ignorer self ?
-		ActorsToIgnore,             // Acteurs ignorés
-		EDrawDebugTrace::ForDuration, // Débogage visuel (optionnel)
-		OutHit,                     // Résultat
-		true                        // Retourne des hit complexes
+		Start,
+		End,
+		Radius,
+		TraceTypeQuery1,
+		false,
+		ActorsToIgnore,
+		EDrawDebugTrace::ForDuration,
+		OutHit,
+		true
 	);
 
 	if (bHit) {
