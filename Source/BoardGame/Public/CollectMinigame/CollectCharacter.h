@@ -33,13 +33,13 @@ protected:
 
 	virtual void ClaimAll() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Collect")
 	TSubclassOf<AActor> ItemVisualizer;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Collect")
 	float ItemStep = 50;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Collect")
 	FTransform ItemBaseLocation;
 
 	UPROPERTY(EditAnywhere, Category="Collect")
@@ -57,13 +57,13 @@ public:
 	void Move(const FInputActionValue& Value);
 
 	// Input System
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputMappingContext* InputMappingContext;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* MoveAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input")
 	UInputAction* PushAction;
 	
 	virtual void Push() override;

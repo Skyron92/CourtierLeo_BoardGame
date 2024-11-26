@@ -3,6 +3,7 @@
 #include "CollectMinigame/CollectCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+
 #include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
@@ -46,9 +47,6 @@ void ACollectCharacter::Harvest(UCollectableComponent* collectable) {
 	collectableItem->SetFruitProperties(temp->GetFruit());
 	
 	CollectedItems.AddUnique(item);
-	GEngine->AddOnScreenDebugMessage(key, 5.f, FColor::White,
-	                                 collectableItem->GetName());
-	key++;
 }
 
 void ACollectCharacter::ClaimAll() {
