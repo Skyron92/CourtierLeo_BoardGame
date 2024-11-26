@@ -33,14 +33,22 @@ void ACollectCharacter::Harvest(UCollectableComponent* collectable) {
 	IIHarvester::Harvest(temp);
 	auto item = GetWorld()->SpawnActor(ItemVisualizer);
 	item->AttachToActor(this,  FAttachmentTransformRules::KeepWorldTransform);
+	auto collectableItem = Cast<ACollectableItem>(item);
+	UCollectableComponent* collectableComponent = Cast<UCollectableComponent>(
+		collectableItem->GetComponentByClass(UCollectableComponent::StaticClass()));
+	if (collectableComponent) {
+		collectableComponent->collectable = false;
+	}
 	FVector location = GetActorLocation();
 	location.Z += ItemStep * Collectables.Num();
 	item->SetActorLocation(location);
-	auto collectableItem = Cast<ACollectableItem>(item);
+	
 	collectableItem->SetFruitProperties(temp->GetFruit());
-	UCollectableComponent* collectableComponent = Cast<UCollectableComponent>(collectableItem->GetComponentByClass(UCollectableComponent::StaticClass()));
-	if (collectableComponent) collectableComponent->collectable = false;
+	
 	CollectedItems.AddUnique(item);
+	GEngine->AddOnScreenDebugMessage(key, 5.f, FColor::White,
+	                                 collectableItem->GetName());
+	key++;
 }
 
 void ACollectCharacter::ClaimAll() {

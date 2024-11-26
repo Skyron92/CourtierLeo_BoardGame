@@ -69,4 +69,5 @@ public:
 	virtual void Push() override;
 
 	virtual void OnHit() override;
+	int key = 7;
 };
