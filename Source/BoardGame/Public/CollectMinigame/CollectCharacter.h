@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CollectableItem.h"
 #include "Hitable.h"
 #include "IHarvester.h"
 #include "InputActionValue.h"
@@ -66,11 +67,6 @@ public:
 	UInputAction* PushAction;
 	
 	virtual void Push() override;
-
-	UFUNCTION()
-	void MoveForward(float value);
-	UFUNCTION()
-	void MoveRight(float value);
 
 	virtual void OnHit() override;
 };

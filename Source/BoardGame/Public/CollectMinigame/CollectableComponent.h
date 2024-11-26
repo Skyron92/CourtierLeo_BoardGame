@@ -21,8 +21,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	int Score = 10;
+	int key = 555;
 
 public:
+	bool collectable = true;
 	
 	int GetScore() const;
 	void SetScore(int score);

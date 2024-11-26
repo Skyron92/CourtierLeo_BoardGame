@@ -45,9 +45,11 @@ void UCollectableComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 void UCollectableComponent::OnActorOverlap(UPrimitiveComponent* component, AActor* other,
 	UPrimitiveComponent* otherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	if (other->Implements<UIHarvester>()){
+		if(!collectable) return;
 		auto harvester = Cast<IIHarvester>(other);
 		harvester->Harvest(this);
 		GetOwner()->Destroy();
+		key++;
 	}
 }
 

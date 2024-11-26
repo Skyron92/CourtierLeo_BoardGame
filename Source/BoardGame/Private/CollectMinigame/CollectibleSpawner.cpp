@@ -54,5 +54,9 @@ void ACollectibleSpawner::SpawnCollectible() {
 void ACollectibleSpawner::OnHit()
 {
 	IHitable::OnHit();
+	for (auto& item : SpawnedItem){
+		item->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		SpawnedItem.Remove(item);
+	}
 }
 
