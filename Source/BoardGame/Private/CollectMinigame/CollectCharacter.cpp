@@ -2,6 +2,8 @@
 
 
 #include "CollectMinigame/CollectCharacter.h"
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values
@@ -9,12 +11,24 @@ ACollectCharacter::ACollectCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	// Initialisation des propriétés
+	DefaultMappingContext = nullptr;
+	MoveAction = nullptr;
+	PushAction = nullptr;
 }
 
 // Called when the game starts or when spawned
 void ACollectCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			// Ajoute le Mapping Context par défaut
+			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
 }
 
 void ACollectCharacter::Harvest(UCollectableComponent* collectable)
@@ -47,25 +61,30 @@ void ACollectCharacter::Tick(float DeltaTime)
 // Called to bind functionality to input
 void ACollectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &ACollectCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("Move Right / Left", this, &ACollectCharacter::MoveRight);
-	UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-	if (Input) {
-		/*if (MoveAction) {
-			Input->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACollectCharacter::InputMove);
-		}*/
-		if (PushAction) {
-			Input->BindAction(PushAction, ETriggerEvent::Started, this, &ACollectCharacter::StartPush);
-		}
+	/*PlayerInputComponent->BindAxis("Move Forward / Backward", this, &ACollectCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("Move Right / Left", this, &ACollectCharacter::MoveRight);*/
+	
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		// Associer les actions
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACollectCharacter::Move);
+		EnhancedInputComponent->BindAction(PushAction, ETriggerEvent::Triggered, this, &ACollectCharacter::Push);
 	}
 }
 
-void ACollectCharacter::StartPush(const FInputActionValue& value) {
-	GEngine->AddOnScreenDebugMessage(8000, 10, FColor::Magenta, "StartPush");
-	Push();
+void ACollectCharacter::Move(const FInputActionValue& Value)
+{
+	FVector2D MovementVector = Value.Get<FVector2D>();
+	if (Controller != nullptr)
+	{
+		// Applique le mouvement sur les axes
+		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
+		AddMovementInput(GetActorRightVector(), MovementVector.X);
+	}
 }
 
 void ACollectCharacter::Push() {
+	GEngine->AddOnScreenDebugMessage(8000, 10, FColor::Magenta, "StartPush");
 	IIHarvester::Push();
 	FVector Start = GetActorLocation();
 	FVector End = Start + FVector(0.f, 0.f, -500.f);

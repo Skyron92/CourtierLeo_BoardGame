@@ -5,9 +5,14 @@
 #include "CoreMinimal.h"
 #include "Hitable.h"
 #include "IHarvester.h"
-#include "EnhancedInputComponent.h"
+#include "InputActionValue.h"
 #include "GameFramework/Character.h"
 #include "CollectCharacter.generated.h"
+
+
+// Forward declarations
+class UInputMappingContext;
+class UInputAction;
 
 // Character qui implémente l'interface IHarvester.
 UCLASS(Blueprintable)
@@ -47,15 +52,18 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
-	UPROPERTY(EditAnywhere, Category="Input")
-	UEnhancedInputComponent* EnhancedInputComponent;
-	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* MoveAction;
-	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* PushAction;
+	// Input Binding Functions
+	void Move(const FInputActionValue& Value);
 
-	UFUNCTION()
-	void StartPush(const FInputActionValue& value);
+	// Input System
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputMappingContext* DefaultMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* MoveAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* PushAction;
 	
 	virtual void Push() override;
 
