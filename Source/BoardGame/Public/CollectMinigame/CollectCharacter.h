@@ -58,7 +58,7 @@ public:
 
 	// Input System
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
-	UInputMappingContext* DefaultMappingContext;
+	UInputMappingContext* InputMappingContext;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Enhanced Input")
 	UInputAction* MoveAction;

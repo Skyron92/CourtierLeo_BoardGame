@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Fruit.h"
 #include "Components/SphereComponent.h"
 #include "CollectableComponent.generated.h"
 
@@ -21,13 +22,17 @@ protected:
 	virtual void BeginPlay() override;
 
 	int Score = 10;
-	int key = 555;
+
+	FFruit fruit;
 
 public:
 	bool collectable = true;
 	
 	int GetScore() const;
 	void SetScore(int score);
+
+	FFruit GetFruit() const;
+	void SetFruit(FFruit& f);
 	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

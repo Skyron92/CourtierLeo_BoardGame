@@ -29,24 +29,39 @@ void ACollectableItem::SetFruitProperties()
 	}
 }
 
+void ACollectableItem::SetFruitProperties(FFruit f) {
+	if (f.IsValid()) {
+		Fruit = f;
+		StaticMeshComponent->SetMaterial(0, Fruit.Material);
+		Collectable->SetScore(Fruit.Score);
+	}
+}
+
 void ACollectableItem::DefineFruitType()
 {
-	int probability = FMath::RandRange(0,100);
-	for (int i = 0; i < FruitTypes.Num(); i++){
-		auto fruitType = FruitTypes[i];
-		if(probability <= fruitType.Probability){
-			Fruit = fruitType;
-			break;
-		}
-		probability -= fruitType.Probability;
-		if(probability <= 0) {
-			Fruit = fruitType;
-			GEngine->AddOnScreenDebugMessage(-576, 10, FColor::Red, "Error : Probability out of range.\n"
-											 "The sum of all fruits probability must be equal to 100 !");
-			break;
+	if (FruitTypes.Num() == 1) {
+		Fruit = FruitTypes[0];
+		Collectable->SetFruit(Fruit);
+	}
+	else {
+		int probability = FMath::RandRange(0, 100);
+		for (int i = 0; i < FruitTypes.Num(); i++) {
+			auto fruitType = FruitTypes[i];
+			if (probability <= fruitType.Probability) {
+				Fruit = fruitType;
+				Collectable->SetFruit(Fruit);
+				break;
+			}
+			probability -= fruitType.Probability;
+			if (probability <= 0) {
+				Fruit = fruitType;
+				Collectable->SetFruit(Fruit);
+				GEngine->AddOnScreenDebugMessage(-576, 10, FColor::Red, "Error : Probability out of range.\n"
+				                                 "The sum of all fruits probability must be equal to 100 !");
+				break;
+			}
 		}
 	}
-
 	SetFruitProperties();
 }
 

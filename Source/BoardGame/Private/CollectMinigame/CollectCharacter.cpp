@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "CollectMinigame/CollectCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
@@ -9,45 +8,42 @@
 // Sets default values
 ACollectCharacter::ACollectCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.
+	// You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	// Initialisation des propriétés
-	DefaultMappingContext = nullptr;
+	InputMappingContext = nullptr;
 	MoveAction = nullptr;
 	PushAction = nullptr;
 }
 
 // Called when the game starts or when spawned
-void ACollectCharacter::BeginPlay()
-{
+void ACollectCharacter::BeginPlay() {
 	Super::BeginPlay();
-	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
-	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
-			// Ajoute le Mapping Context par défaut
-			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController())) {
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
+			UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer())) {
+			Subsystem->AddMappingContext(InputMappingContext, 0);
 		}
 	}
 }
 
-void ACollectCharacter::Harvest(UCollectableComponent* collectable)
-{
-	IIHarvester::Harvest(collectable);
+void ACollectCharacter::Harvest(UCollectableComponent* collectable) {
+	auto temp = collectable;
+	IIHarvester::Harvest(temp);
 	auto item = GetWorld()->SpawnActor(ItemVisualizer);
 	item->AttachToActor(this,  FAttachmentTransformRules::KeepWorldTransform);
 	FVector location = GetActorLocation();
 	location.Z += ItemStep * Collectables.Num();
 	item->SetActorLocation(location);
 	auto collectableItem = Cast<ACollectableItem>(item);
-	collectableItem->SetFruitProperties();
+	collectableItem->SetFruitProperties(temp->GetFruit());
 	UCollectableComponent* collectableComponent = Cast<UCollectableComponent>(collectableItem->GetComponentByClass(UCollectableComponent::StaticClass()));
 	if (collectableComponent) collectableComponent->collectable = false;
 	CollectedItems.AddUnique(item);
 }
 
-void ACollectCharacter::ClaimAll()
-{
+void ACollectCharacter::ClaimAll() {
 	IIHarvester::ClaimAll();
 	for (auto item : CollectedItems){
 		item->Destroy();
@@ -65,23 +61,15 @@ void ACollectCharacter::Tick(float DeltaTime)
 // Called to bind functionality to input
 void ACollectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	/*PlayerInputComponent->BindAxis("Move Forward / Backward", this, &ACollectCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("Move Right / Left", this, &ACollectCharacter::MoveRight);*/
-	
-	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
-	{
-		// Associer les actions
+	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACollectCharacter::Move);
 		EnhancedInputComponent->BindAction(PushAction, ETriggerEvent::Triggered, this, &ACollectCharacter::Push);
 	}
 }
 
-void ACollectCharacter::Move(const FInputActionValue& Value)
-{
+void ACollectCharacter::Move(const FInputActionValue& Value) {
 	FVector2D MovementVector = Value.Get<FVector2D>();
-	if (Controller != nullptr)
-	{
-		// Applique le mouvement sur les axes
+	if (Controller != nullptr) {
 		AddMovementInput(GetActorForwardVector(), MovementVector.Y);
 		AddMovementInput(GetActorRightVector(), MovementVector.X);
 	}

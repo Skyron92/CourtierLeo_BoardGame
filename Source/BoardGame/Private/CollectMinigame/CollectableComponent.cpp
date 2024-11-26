@@ -34,6 +34,14 @@ void UCollectableComponent::SetScore(int score)
 	Score = score;
 }
 
+FFruit UCollectableComponent::GetFruit() const {
+	return fruit;
+}
+
+void UCollectableComponent::SetFruit(FFruit& f) {
+	fruit = f;
+}
+
 // Called every frame
 void UCollectableComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -49,7 +57,6 @@ void UCollectableComponent::OnActorOverlap(UPrimitiveComponent* component, AActo
 		auto harvester = Cast<IIHarvester>(other);
 		harvester->Harvest(this);
 		GetOwner()->Destroy();
-		key++;
 	}
 }
 

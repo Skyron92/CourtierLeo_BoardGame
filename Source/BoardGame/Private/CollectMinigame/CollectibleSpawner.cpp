@@ -61,7 +61,9 @@ void ACollectibleSpawner::OnHit()
 		key++;
 	}
 	SpawnedItem.Empty();
-	slots.Empty();
+	for (auto& slot : slots) {
+		slot.Taken = false;
+	}
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, FMath::RandRange(2,4), false);
 }
 

@@ -21,6 +21,7 @@ public:
 	ACollectableItem();
 	
 	void SetFruitProperties();
+	void SetFruitProperties(FFruit f);
 
 protected:
 	// Called when the game starts or when spawned
