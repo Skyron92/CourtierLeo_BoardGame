@@ -18,6 +18,36 @@ ACollectableItem::ACollectableItem() {
 // Called when the game starts or when spawned
 void ACollectableItem::BeginPlay() {
 	Super::BeginPlay();
+	DefineFruitType();
+}
+
+void ACollectableItem::SetFruitProperties()
+{
+	if(Fruit.IsValid()) {
+		StaticMeshComponent->SetMaterial(0,Fruit.Material);
+		Collectable->SetScore(Fruit.Score);
+	}
+}
+
+void ACollectableItem::DefineFruitType()
+{
+	int probability = FMath::RandRange(0,100);
+	for (int i = 0; i < FruitTypes.Num(); i++){
+		auto fruitType = FruitTypes[i];
+		if(probability <= fruitType.Probability){
+			Fruit = fruitType;
+			break;
+		}
+		probability -= fruitType.Probability;
+		if(probability <= 0) {
+			Fruit = fruitType;
+			GEngine->AddOnScreenDebugMessage(-576, 10, FColor::Red, "Error : Probability out of range.\n"
+											 "The sum of all fruits probability must be equal to 100 !");
+			break;
+		}
+	}
+
+	SetFruitProperties();
 }
 
 // Called every frame
@@ -25,3 +55,8 @@ void ACollectableItem::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 }
 
+void ACollectableItem::Fall() {
+	StaticMeshComponent->SetCollisionProfileName("BlockAllDynamic");
+	StaticMeshComponent->SetSimulatePhysics(true);
+	Collectable->collectable = true;
+}

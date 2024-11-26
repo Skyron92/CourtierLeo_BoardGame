@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Fruit.h"
 #include "CollectMinigame/CollectableComponent.h"
 #include "GameFramework/Actor.h"
 #include "CollectableItem.generated.h"
@@ -15,9 +16,11 @@ class ACollectableItem : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
 	// Sets default values for this actor's properties
 	ACollectableItem();
+	
+	void SetFruitProperties();
 
 protected:
 	// Called when the game starts or when spawned
@@ -29,8 +32,17 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UCollectableComponent* Collectable;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Fruit")
+	TArray<FFruit> FruitTypes;
+	
+	FFruit Fruit;
+
+	void DefineFruitType();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	void Fall();
 
 };

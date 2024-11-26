@@ -39,7 +39,9 @@ void ACollectCharacter::Harvest(UCollectableComponent* collectable)
 	FVector location = GetActorLocation();
 	location.Z += ItemStep * Collectables.Num();
 	item->SetActorLocation(location);
-	UCollectableComponent* collectableComponent = Cast<UCollectableComponent>(item->GetComponentByClass(UCollectableComponent::StaticClass()));
+	auto collectableItem = Cast<ACollectableItem>(item);
+	collectableItem->SetFruitProperties();
+	UCollectableComponent* collectableComponent = Cast<UCollectableComponent>(collectableItem->GetComponentByClass(UCollectableComponent::StaticClass()));
 	if (collectableComponent) collectableComponent->collectable = false;
 	CollectedItems.AddUnique(item);
 }
@@ -87,8 +89,8 @@ void ACollectCharacter::Move(const FInputActionValue& Value)
 
 void ACollectCharacter::Push() {
 	IIHarvester::Push();
-	FVector Start = GetActorLocation() + FVector(100.f, 0.f, 0.f);
-	FVector End = Start + FVector(0.f, 0.f, -50.f);
+	FVector Start = GetActorLocation() + FVector(100.f, 0.f, 50.f);
+	FVector End = Start + FVector(0.f, 0.f, 100.f);
 	float Radius = 100.f;
 	TArray<AActor*> ActorsToIgnore;
 	ActorsToIgnore.Add(this);
@@ -111,7 +113,6 @@ void ACollectCharacter::Push() {
 	if (bHit) {
 		auto out = OutHit.GetActor();
 		if(out->Implements<UHitable>()) {
-			GEngine->AddOnScreenDebugMessage(666,10,FColor::Emerald, TEXT("Hitable detected"));
 			auto harvester = Cast<IHitable>(out);
 			harvester->OnHit();
 		}

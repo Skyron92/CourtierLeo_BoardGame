@@ -7,6 +7,7 @@
 ACollectibleSpawner::ACollectibleSpawner() {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
 }
 
 // Called when the game starts or when spawned
@@ -42,8 +43,6 @@ void ACollectibleSpawner::SpawnCollectible() {
 			item->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 			item->SetActorRelativeLocation(slot.Location);
 			SpawnedItem.AddUnique(item);
-			GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
-			GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, FMath::RandRange(2,5), false);
 			break;
 		}
 	}
@@ -54,9 +53,15 @@ void ACollectibleSpawner::SpawnCollectible() {
 void ACollectibleSpawner::OnHit()
 {
 	IHitable::OnHit();
+	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
 	for (auto& item : SpawnedItem){
 		item->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-		SpawnedItem.Remove(item);
+		auto collectableItem = Cast<ACollectableItem>(item);
+		collectableItem->Fall();
+		key++;
 	}
+	SpawnedItem.Empty();
+	slots.Empty();
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, FMath::RandRange(2,4), false);
 }
 
