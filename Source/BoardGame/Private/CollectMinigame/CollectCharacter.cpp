@@ -3,6 +3,7 @@
 #include "CollectMinigame/CollectCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Components/WidgetComponent.h"
 
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -27,6 +28,9 @@ void ACollectCharacter::BeginPlay() {
 			Subsystem->AddMappingContext(InputMappingContext, 0);
 		}
 	}
+	counterWidgetComponent = Cast<UWidgetComponent>(GetComponentByClass(UWidgetComponent::StaticClass()));
+	counterWidgetComponent->SetVisibility(false);
+	playerCounterWidget = Cast<UPlayerCounterWidget>(counterWidgetComponent->GetWidget());
 }
 
 void ACollectCharacter::Harvest(UCollectableComponent* collectable) {
@@ -47,6 +51,7 @@ void ACollectCharacter::Harvest(UCollectableComponent* collectable) {
 	collectableItem->SetFruitProperties(temp->GetFruit());
 	
 	CollectedItems.AddUnique(item);
+	UpdateWidget();
 }
 
 void ACollectCharacter::ClaimAll() {
@@ -56,6 +61,7 @@ void ACollectCharacter::ClaimAll() {
 	}
 	CollectedItems.Empty();
 	Collectables.Empty();
+	UpdateWidget();
 }
 
 // Called every frame
@@ -117,5 +123,18 @@ void ACollectCharacter::OnHit()
 {
 	IHitable::OnHit();
 	LeaveAll();
+}
+
+void ACollectCharacter::UpdateWidget(){
+	if(counterWidgetComponent){
+		int itemNum = CollectedItems.Num();
+		if(itemNum >= 3){
+			counterWidgetComponent->SetVisibility(true);
+			playerCounterWidget->SetValue(itemNum);
+		}
+		else {
+			counterWidgetComponent->SetVisibility(false);
+		}
+	}
 }
 

@@ -7,6 +7,7 @@
 #include "Hitable.h"
 #include "IHarvester.h"
 #include "InputActionValue.h"
+#include "PlayerCounterWidget.h"
 #include "GameFramework/Character.h"
 #include "CollectCharacter.generated.h"
 
@@ -70,4 +71,12 @@ public:
 
 	virtual void OnHit() override;
 	int key = 7;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
+	UWidgetComponent* counterWidgetComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="UI")
+	UPlayerCounterWidget* playerCounterWidget;
+
+	void UpdateWidget();
 };
