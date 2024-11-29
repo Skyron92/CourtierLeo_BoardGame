@@ -46,8 +46,6 @@ TArray<FIntVector2> AMemoryManager::GeneratePath() {
 		if (i == 0) {
 			currentPos = FIntVector2(0, start);
 			result.AddUnique(FIntVector2(currentPos));
-			GEngine->AddOnScreenDebugMessage(-2 * i, 200000, FColor::Orange, FString::Printf(
-				                                 TEXT("first card = %d, %d\n"), currentPos.X, currentPos.Y));
 			continue;
 		}
 		// true = x, false = y
@@ -67,8 +65,6 @@ TArray<FIntVector2> AMemoryManager::GeneratePath() {
 					yLengthRemaining--;
 					currentPos.Y += increment;
 					result.AddUnique(FIntVector2(currentPos));
-					GEngine->AddOnScreenDebugMessage(-3 * i, 200000, FColor::Red, FString::Printf(
-						                                 TEXT("Last card added = %d, %d"),currentPos.X, currentPos.Y));
 				}
 			}
 			else {
@@ -79,8 +75,6 @@ TArray<FIntVector2> AMemoryManager::GeneratePath() {
 			currentPos.X++;
 			result.AddUnique(FIntVector2(currentPos));
 			xLengthRemaining--;
-			GEngine->AddOnScreenDebugMessage(-4 * i, 200000, FColor::Magenta, FString::Printf(
-				                                 TEXT("Last card added = %d, %d\n"), currentPos.X, currentPos.Y));
 		}
 	}
 	return result;

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlayerCounterWidget.h"
 #include "GameFramework/GameModeBase.h"
 #include "CollectGameMode.generated.h"
 
@@ -16,6 +17,25 @@ class ACollectGameMode : public AGameModeBase
 
 	ACollectGameMode();
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<ACharacter> DefaultCharacterClass;
+	virtual void BeginPlay() override;
+
+	// Timer
+	int _currentTime;
+	FTimerHandle _timer;
+	void StartTimer();
+	UFUNCTION()
+	void IncrementTime();
+	UPlayerCounterWidget* TimerWidget;
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CollectGameMode")
+	TSubclassOf<UUserWidget> TimerWidgetClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Game")
+	int _maxTime;
+
+protected:
+	// End game
+	void EndGame();
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CollectGameMode")
+	TSubclassOf<UUserWidget> EndGameWidget;
 };
