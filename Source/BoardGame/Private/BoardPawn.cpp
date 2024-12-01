@@ -33,3 +33,33 @@ void ABoardPawn::Tick(float DeltaTime)
 
 }
 
+void ABoardPawn::BeginIdleAnimation(FTransform& hands, FTransform& head, FTransform inHands, FTransform inHead)
+{
+	handsTransform = inHands;
+	headTransform = inHead;
+	hands = handsTransform;
+	head = headTransform;
+	idleStartTime = GetWorld()->GetTimeSeconds();
+	TimerIdleDelegate.BindUFunction(this, "IdleAnimation");
+	GetWorld()->GetTimerManager().SetTimer(TimerIdle, TimerIdleDelegate, .1f, true);
+}
+
+void ABoardPawn::IdleAnimation()
+{
+	float sin = FMath::Sin((idleStartTime - GetWorld()->GetTimeSeconds()) * idleSpeed);
+	sin *= sin;
+	// hands
+	MoveBone(handsTransform, sin, handsZOffset);
+	// head
+	MoveBone(headTransform, sin, headZOffset);
+}
+
+void ABoardPawn::MoveBone(FTransform& t, float val, float offset)
+{
+	GEngine->AddOnScreenDebugMessage(key, 5.f, FColor::Red, TEXT("Move bone"));
+	key++;
+	auto newPos = t.GetLocation();
+	newPos.Z = val * offset;
+	t.SetLocation(newPos);
+}
+

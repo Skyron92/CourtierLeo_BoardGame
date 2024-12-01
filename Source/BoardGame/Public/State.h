@@ -17,6 +17,6 @@ public:
 	virtual void Do(APlayerFSM* fsm) const;
 	virtual void Exit(APlayerFSM* fsm) const;
 
-	UFUNCTION(BlueprintCallable)
-	void Print(FString content) const;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FTransform> bones;
 };

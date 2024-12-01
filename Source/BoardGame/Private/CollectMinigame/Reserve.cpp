@@ -20,6 +20,14 @@ AReserve::AReserve()
 // Called when the game starts or when spawned
 void AReserve::BeginPlay(){
 	Super::BeginPlay();
+
+	if(scoreWidgetClass){
+		auto widget = CreateWidget<UUserWidget>(GetWorld(),scoreWidgetClass);
+		if(widget){
+			widget->AddToViewport();
+			scoreWidget = Cast<UPlayerCounterWidget>(widget);
+		}
+	}
 }
 
 // Called every frame
@@ -32,6 +40,7 @@ void AReserve::OnActorOverlap(UPrimitiveComponent* component, AActor* other, UPr
 	if (other->Implements<UIHarvester>()){
 		auto harvester = Cast<IIHarvester>(other);
 		harvester->ClaimAll();
+		scoreWidget->SetValue(harvester->score);
 	}
 }
 
