@@ -2,7 +2,6 @@
 
 
 #include "MastermindMinigame/MastermindBrain.h"
-
 #include "MastermindMinigame/SymbolTile.h"
 
 // Sets default values
@@ -15,6 +14,7 @@ AMastermindBrain::AMastermindBrain() {
 void AMastermindBrain::BeginPlay() {
 	Super::BeginPlay();
 	GenerateSequence();
+	CheckSequence(sequence);
 }
 
 // Called every frame
@@ -25,16 +25,27 @@ void AMastermindBrain::Tick(float DeltaTime) {
 void AMastermindBrain::GenerateSequence() {
 	for (int i = 0; i < 4; i++) {
 		sequence[i] = FSymbol(i, colors[FMath::RandRange(0, colors.Num() - 1)]);
-		DisplaySymbolTile(i);
 	}
 }
 
+/// <summary>
+/// Allows to know if the symbol is correct at the given index.
+/// <summary>
 EMastermindBrainState AMastermindBrain::CheckSymbol(FSymbol symbolToCheck, int index) {
 	bool ColorIsCorrect = symbolToCheck.ColorIsCorrect(sequence[index].color);
-	return ColorIsCorrect ? Correct : ColorIsValid(symbolToCheck.color) ? BadRank : Wrong;
+	return ColorIsCorrect ? Correct : ValueIsValid(symbolToCheck.color) ? BadRank : Wrong;
 }
 
-bool AMastermindBrain::ColorIsValid(FColor color) {
+FColor AMastermindBrain::GetNextColor(int& index) {
+	if (index >= colors.Num()-1) index = -1;
+	index++;
+	return colors[index];
+}
+
+/// <summary>
+/// Allows to know if the given color exists in the sequence.
+/// <summary>
+bool AMastermindBrain::ValueIsValid(FColor color) {
 	for (int i = 0; i < 4; i++) {
 		if (sequence[i].color == colors[i]) {
 			return true;
@@ -43,16 +54,14 @@ bool AMastermindBrain::ColorIsValid(FColor color) {
 	return false;
 }
 
-void AMastermindBrain::CheckSequence(FSymbol sequenceToCheck[4]) {
+std::vector<EMastermindBrainState> AMastermindBrain::CheckSequence(FSymbol sequenceToCheck[4]) {
+	std::vector<EMastermindBrainState> results;
 	for (int i = 0; i < 4; i++) {
-		CheckSymbol(sequenceToCheck[i], i);
+		results.push_back(CheckSymbol(sequenceToCheck[i], i));
 	}
-}
-
-void AMastermindBrain::DisplaySymbolTile(int i) {
-	auto a = GetWorld()->SpawnActor(SymbolTileClass);
-	a->SetActorLocation(FVector(0, i * TileOffset, 0));
-	auto s = Cast<ASymbolTile>(a);
-	auto color = sequence[i].color;
-	s->SetColor(color);
+	for (int i = 0; i < 4; i++) {
+		GEngine->AddOnScreenDebugMessage(i, 10.f, results[i] == Correct ? FColor::Green : results[i] == Wrong ?
+			FColor::Red : FColor::Yellow, FString::Printf(TEXT("Symbol %d: %s"), i, *UEnum::GetValueAsString(results[i])));
+	}
+	return results;
 }

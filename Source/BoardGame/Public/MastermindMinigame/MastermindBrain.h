@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Symbol.h"
+#include <vector>
 #include "GameFramework/Actor.h"
 #include "MastermindBrain.generated.h"
 
@@ -37,15 +38,13 @@ public:
 
 	void GenerateSequence();
 
-	bool ColorIsValid(FColor color);
+	bool ValueIsValid(FColor color);
 	EMastermindBrainState CheckSymbol(FSymbol symbolToCheck, int index);
 
-	void CheckSequence(FSymbol sequenceToCheck[4]);
+	FColor GetNextColor(int &index);
 
-	void DisplaySymbolTile(int i);
-
-	UPROPERTY(EditAnywhere, Category = Gameplay)
-	TSubclassOf<class ASymbolTile> SymbolTileClass;
+	std::vector<EMastermindBrainState> CheckSequence(FSymbol sequenceToCheck[4]);
+	
 	UPROPERTY(EditAnywhere, Category = Gameplay)
 	float TileOffset;
 };

@@ -11,7 +11,7 @@ struct FSymbol {
 
 	// Sets default values for this struct's properties
 	FSymbol();
-	FSymbol(int rank, FColor& color);
+	FSymbol(int rank, FColor color);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int rank;

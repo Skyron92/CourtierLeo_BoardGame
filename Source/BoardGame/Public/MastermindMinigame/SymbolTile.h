@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MastermindBrain.h"
 #include "GameFramework/Actor.h"
 #include "SymbolTile.generated.h"
 
 UCLASS()
-class BOARDGAME_API ASymbolTile : public AActor {
+class BOARDGAME_API ASymbolTile : public APawn {
 	GENERATED_BODY()
 
 public:
@@ -17,6 +18,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	int colorIndex = 0;
+	FName colorName = "Color";
 
 public:
 	// Called every frame
@@ -29,9 +33,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UMaterialInstanceDynamic* Mid;
 
-	void SetColor(FColor color);
-};
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	AMastermindBrain* brain;
 
-inline void ASymbolTile::SetColor(FColor color) {
-	Mid->SetVectorParameterValue("Color", color);
-}
+	void SetColor(FColor color);
+	FColor GetColor();
+	UFUNCTION()
+	void OnTileClicked(AActor* actor, FKey keyCalled);
+};

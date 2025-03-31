@@ -2,7 +2,6 @@
 
 
 #include "MastermindMinigame/MastermindGameMode.h"
-
 #include "MastermindMinigame/MastermindPlayerController.h"
 
 AMastermindGameMode::AMastermindGameMode() {

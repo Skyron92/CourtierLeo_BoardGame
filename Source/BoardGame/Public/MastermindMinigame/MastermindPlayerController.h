@@ -16,6 +16,5 @@ class BOARDGAME_API AMastermindPlayerController : public APlayerController {
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	void Pick(AActor* ClickedComp, FKey
-	          ButtonPressed);
+	void Pick(AActor* ClickedComp, FKey ButtonPressed);
 };
