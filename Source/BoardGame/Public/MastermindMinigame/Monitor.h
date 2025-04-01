@@ -33,8 +33,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<ASymbolTile*> Tiles;
-	UPROPERTY(BlueprintReadWrite)
-	TArray<FTransform> SpawnTilesTransforms; ;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float TileOffset = 150.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	AMastermindBrain* Brain;

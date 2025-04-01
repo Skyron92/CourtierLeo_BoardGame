@@ -25,6 +25,7 @@ void AMastermindBrain::Tick(float DeltaTime) {
 void AMastermindBrain::GenerateSequence() {
 	for (int i = 0; i < 4; i++) {
 		sequence[i] = FSymbol(i, colors[FMath::RandRange(0, colors.Num() - 1)]);
+		GEngine->AddOnScreenDebugMessage(-2000 + i, 10.f, FColor::Green, FString::Printf(TEXT("Symbol %d: %d, %d, %d"), i, sequence[i].color.R, sequence[i].color.G, sequence[i].color.B));
 	}
 }
 

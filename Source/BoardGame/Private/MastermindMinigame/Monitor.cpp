@@ -19,7 +19,7 @@ void AMonitor::BeginPlay()
 	for (int i = 0; i < 4; i++) {
 		FActorSpawnParameters spawnParameters = FActorSpawnParameters();
 		spawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		Tiles[i] = GetWorld()->SpawnActor<ASymbolTile>(SymbolTileClass, SpawnTilesTransforms[i], spawnParameters);
+		Tiles[i] = GetWorld()->SpawnActor<ASymbolTile>(SymbolTileClass, FTransform(GetActorLocation() + FVector(0, i*TileOffset + TileOffset, 0)), spawnParameters);
 		Tiles[i]->brain = Brain;
 	}
 }
